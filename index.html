@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blow Studio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#ffffff;
+    --card:#f4f4f4;
+    --text:#111111;
+    --muted:#666666;
+    --border:#dddddd;
+}
+
+[data-theme="dark"]{
+    --bg:#070707;
+    --card:#141414;
+    --text:#ffffff;
+    --muted:#9a9a9a;
+    --border:#2a2a2a;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    transition:0.3s;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top left,rgba(255,255,255,0.05),transparent 25%),
+    radial-gradient(circle at bottom right,rgba(255,255,255,0.03),transparent 25%);
+    z-index:-1;
+    pointer-events:none;
+}
+
+header{
+    text-align:center;
+    padding:100px 20px 70px;
+}
+
+.badge{
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--muted);
+    font-size:0.75rem;
+    font-weight:700;
+    margin-bottom:24px;
+}
+
+h1{
+    font-size:clamp(4rem,10vw,7rem);
+    font-weight:900;
+    line-height:0.9;
+    letter-spacing:-6px;
+}
+
+.hero-text{
+    max-width:700px;
+    margin:25px auto 0;
+    color:var(--muted);
+    line-height:1.7;
+    font-size:1.05rem;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:40px;
+    flex-wrap:wrap;
+}
+
+.hero-buttons a{
+    text-decoration:none;
+}
+
+.btn{
+    padding:14px 24px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    font-weight:700;
+    transition:0.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    background:var(--text);
+    color:var(--bg);
+}
+
+.secondary{
+    background:var(--card);
+    color:var(--text);
+}
+
+nav{
+    width:fit-content;
+    margin:auto;
+    display:flex;
+    gap:10px;
+    padding:10px;
+    border-radius:18px;
+    background:var(--card);
+    border:1px solid var(--border);
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.nav-link{
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:0.8rem;
+    font-weight:700;
+    text-transform:uppercase;
+    color:var(--muted);
+    transition:0.2s;
+}
+
+.nav-link.active{
+    background:var(--text);
+    color:var(--bg);
+}
+
+.container{
+    max-width:950px;
+    margin:60px auto;
+    padding:0 20px 100px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.section-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:30px;
+    margin-top:25px;
+}
+
+h2{
+    font-size:2.2rem;
+    margin-bottom:12px;
+    letter-spacing:-2px;
+}
+
+.subtitle{
+    color:var(--muted);
+    margin-bottom:30px;
+    line-height:1.7;
+}
+
+textarea,
+input{
+    width:100%;
+    padding:16px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
+    font-family:inherit;
+    font-size:1rem;
+    margin-top:15px;
+    outline:none;
+}
+
+textarea{
+    resize:vertical;
+    min-height:140px;
+}
+
+button{
+    background:var(--text);
+    color:var(--bg);
+    border:none;
+    padding:14px 24px;
+    border-radius:14px;
+    font-weight:800;
+    cursor:pointer;
+    margin-top:15px;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:24px;
+    margin-top:20px;
+}
+
+.card-user{
+    font-size:0.75rem;
+    color:var(--muted);
+    font-weight:800;
+    margin-bottom:12px;
+    letter-spacing:1px;
+}
+
+.card-text{
+    line-height:1.7;
+}
+
+.card img{
+    width:100%;
+    border-radius:18px;
+    margin-top:15px;
+}
+
+.feed-title{
+    margin-top:40px;
+    margin-bottom:20px;
+    font-size:0.8rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.theme-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.theme-buttons button{
+    flex:1;
+}
+
+#adminPanel{
+    display:none;
+    margin-top:25px;
+}
+
+@media(max-width:768px){
+
+    nav{
+        width:calc(100% - 40px);
+    }
+
+    .nav-link{
+        flex:1;
+        text-align:center;
+        font-size:0.7rem;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="badge">
+ROBLOX DEVELOPMENT STUDIO
+</div>
+
+<h1>
+BLOW<br>STUDIO
+</h1>
+
+<p class="hero-text">
+Building fun Roblox experiences and community driven games.
+</p>
+
+<div class="hero-buttons">
+
+<a href="https://discord.gg/WWCfuPY5Ma" target="_blank">
+<div class="btn primary">
+Join Discord
+</div>
+</a>
+
+<a href="https://www.roblox.com/share/g/316024940" target="_blank">
+<div class="btn secondary">
+Roblox Group
+</div>
+</a>
+
+</div>
+
+</header>
+
+<nav>
+
+<div class="nav-link active" onclick="showPage('ideas',this)">
+Ideas
+</div>
+
+<div class="nav-link" onclick="showPage('announcements',this)">
+Announcements
+</div>
+
+<div class="nav-link" onclick="showPage('owners',this)">
+Owners
+</div>
+
+<div class="nav-link" onclick="showPage('admin',this)">
+Admin
+</div>
+
+<div class="nav-link" onclick="showPage('settings',this)">
+Settings
+</div>
+
+</nav>
+
+<div class="container">
+
+<!-- IDEAS -->
+<div id="ideas" class="page active">
+
+<h2>
+Game Suggestions
+</h2>
+
+<p class="subtitle">
+Suggest updates, features, UI ideas, and chaos events.
+</p>
+
+<div class="section-box">
+
+<textarea
+id="ideaInput"
+placeholder="Type your idea..."
+></textarea>
+
+<input
+type="file"
+id="ideaFile"
+>
+
+<button onclick="submitIdea()">
+Post Suggestion
+</button>
+
+</div>
+
+<div class="feed-title">
+Community Feed
+</div>
+
+<div id="commentsList">
+
+<p id="noComments" style="color:var(--muted)">
+No ideas yet.
+</p>
+
+</div>
+
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<div id="announcements" class="page">
+
+<h2>
+Announcements
+</h2>
+
+<p class="subtitle">
+Official updates from Blow Studio admins.
+</p>
+
+<div id="announcementList">
+
+<p id="noAnnouncements" style="color:var(--muted)">
+No announcements yet.
+</p>
+
+</div>
+
+</div>
+
+<!-- OWNERS -->
+<div id="owners" class="page">
+
+<h2>
+Studio Owners
+</h2>
+
+<p class="subtitle">
+Main people behind Blow Studio.
+</p>
+
+<div class="section-box">
+
+<div class="card">
+
+<div class="card-user">
+OWNER
+</div>
+
+<div class="card-text">
+Liam James
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-user">
+STUDIO
+</div>
+
+<div class="card-text">
+Blow Studio Roblox Development Team
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="page">
+
+<h2>
+Admin Panel
+</h2>
+
+<p class="subtitle">
+Only admins can post announcements.
+</p>
+
+<div class="section-box">
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Enter admin password..."
+>
+
+<button onclick="unlockAdmin()">
+Unlock Admin
+</button>
+
+<div id="adminPanel">
+
+<textarea
+id="announcementInput"
+placeholder="Write announcement..."
+></textarea>
+
+<input
+type="file"
+id="announcementFile"
+>
+
+<button onclick="postAnnouncement()">
+Post Announcement
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="page">
+
+<h2>
+Settings
+</h2>
+
+<p class="subtitle">
+Customize the website appearance.
+</p>
+
+<div class="section-box">
+
+<div class="theme-buttons">
+
+<button onclick="setTheme('light')">
+Light Mode
+</button>
+
+<button onclick="setTheme('dark')">
+Dark Mode
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showPage(pageId,element){
+
+document.querySelectorAll('.page').forEach(page=>{
+page.classList.remove('active');
+});
+
+document.querySelectorAll('.nav-link').forEach(link=>{
+link.classList.remove('active');
+});
+
+document.getElementById(pageId).classList.add('active');
+
+element.classList.add('active');
+
+}
+
+function setTheme(mode){
+
+document.documentElement.setAttribute('data-theme',mode);
+
+localStorage.setItem('blowStudioTheme',mode);
+
+}
+
+function createFileHTML(file){
+
+if(!file) return "";
+
+const fileURL=URL.createObjectURL(file);
+
+if(file.type.startsWith('image/')){
+
+return `<img src="${fileURL}">`;
+
+}else{
+
+return `
+<a
+href="${fileURL}"
+download="${file.name}"
+style="
+display:block;
+margin-top:15px;
+font-weight:700;
+color:var(--text);
+"
+>
+Download File: ${file.name}
+</a>
+`;
+
+}
+
+}
+
+function submitIdea(){
+
+const input=document.getElementById('ideaInput');
+
+const file=document.getElementById('ideaFile').files[0];
+
+const list=document.getElementById('commentsList');
+
+const noComments=document.getElementById('noComments');
+
+if(input.value.trim()==="" && !file){
+
+alert("Write something first!");
+
+return;
+
+}
+
+if(noComments){
+noComments.remove();
+}
+
+const card=document.createElement('div');
+
+card.className='card';
+
+card.innerHTML=`
+
+<div class="card-user">
+ANONYMOUS USER
+</div>
+
+<div class="card-text">
+${input.value}
+</div>
+
+${createFileHTML(file)}
+
+`;
+
+list.prepend(card);
+
+input.value="";
+document.getElementById('ideaFile').value="";
+
+}
+
+function unlockAdmin(){
+
+const password=
+document.getElementById('adminPassword').value;
+
+if(password==="dingdongeatitup"){
+
+document.getElementById('adminPanel')
+.style.display="block";
+
+alert("Admin unlocked!");
+
+}else{
+
+alert("Wrong password!");
+
+}
+
+}
+
+function postAnnouncement(){
+
+const input=
+document.getElementById('announcementInput');
+
+const file=
+document.getElementById('announcementFile').files[0];
+
+const list=
+document.getElementById('announcementList');
+
+const noAnnouncements=
+document.getElementById('noAnnouncements');
+
+if(input.value.trim()==="" && !file){
+
+alert("Write something first!");
+
+return;
+
+}
+
+if(noAnnouncements){
+noAnnouncements.remove();
+}
+
+const card=document.createElement('div');
+
+card.className='card';
+
+card.innerHTML=`
+
+<div class="card-user">
+BLOW STUDIO ANNOUNCEMENT
+</div>
+
+<div class="card-text">
+${input.value}
+</div>
+
+${createFileHTML(file)}
+
+`;
+
+list.prepend(card);
+
+input.value="";
+document.getElementById('announcementFile').value="";
+
+}
+
+setTheme(
+localStorage.getItem('blowStudioTheme')
+|| 'dark'
+);
+
+</script>
+
+</body>
+</html>
